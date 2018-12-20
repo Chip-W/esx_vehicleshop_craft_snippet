@@ -1,5 +1,14 @@
+# LICENSE FOR USE
+* You may use this snippet and edit to your liking.  Please PR any improvements.
+* This code may **NOT** be posted anywhere else.
+* I will delete any issues that do not show errors as I can not help without know what they are.
+
 # esx_vehicleshop_craft_snippet
 Craft License Plates With Cardealer Job
+
+# KNOWN BUGS
+* Marker is invisible until after a relog or when you start crafting.
+* No other known bugs.
 
 # IMPORTANT NOTE
 For this snippet to work properly, you will need three resources installed.
@@ -34,6 +43,7 @@ Add a comma behind the __}__ then press enter and paste:
           drop   = 4
         }
 ```
+*I have steel set as more rare than diamonds, rarity is up to you*
 
 # ESX_VEHICLESHOP
 ## CONFIG.LUA
@@ -119,3 +129,407 @@ AddEventHandler('esx_sidealership:stopCraft', function()
 	PlayersCrafting[_source] = false
 end)
 ```
+
+## CLIENT/MAIN.LUA
+find:
+```lua
+Citizen.CreateThread(function ()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(0)
+	end
+
+	Citizen.Wait(10000)
+
+	ESX.TriggerServerCallback('esx_vehicleshop:getCategories', function (categories)
+		Categories = categories
+	end)
+
+	ESX.TriggerServerCallback('esx_vehicleshop:getVehicles', function (vehicles)
+		Vehicles = vehicles
+	end)
+
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.ShopEntering.Type = 1
+
+			if ESX.PlayerData.job.grade_name == 'boss' then
+				Config.Zones.BossActions.Type = 1
+			end
+
+		else
+			Config.Zones.ShopEntering.Type = -1
+			Config.Zones.BossActions.Type  = -1
+		end
+	end
+end)
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	ESX.PlayerData = xPlayer
+
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.ShopEntering.Type = 1
+
+			if ESX.PlayerData.job.grade_name == 'boss' then
+				Config.Zones.BossActions.Type = 1
+			end
+
+		else
+			Config.Zones.ShopEntering.Type = -1
+			Config.Zones.BossActions.Type  = -1
+		end
+	end
+end)
+```
+
+Replace with:
+```lua
+Citizen.CreateThread(function ()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(0)
+	end
+
+	Citizen.Wait(10000)
+
+	ESX.TriggerServerCallback('esx_vehicleshop:getCategories', function (categories)
+		Categories = categories
+	end)
+
+	ESX.TriggerServerCallback('esx_vehicleshop:getVehicles', function (vehicles)
+		Vehicles = vehicles
+	end)
+
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.ShopEntering.Type = 1
+
+			if ESX.PlayerData.job.grade_name == 'boss' then
+				Config.Zones.BossActions.Type = 1
+			end
+
+		elseif ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.Craft.Type = 1
+
+		else
+			Config.Zones.ShopEntering.Type = -1
+			Config.Zones.Craft.Type 	   = -1
+			Config.Zones.BossActions.Type  = -1
+		end
+	end
+end)
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	ESX.PlayerData = xPlayer
+
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.ShopEntering.Type = 1
+
+			if ESX.PlayerData.job.grade_name == 'boss' then
+				Config.Zones.BossActions.Type = 1
+			end
+
+		elseif ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.Craft.Type = 1
+
+		else
+			Config.Zones.ShopEntering.Type = -1
+			Config.Zones.Craft.Type 	   = -1
+			Config.Zones.BossActions.Type  = -1
+		end
+	end
+end)
+```
+Find:
+```lua
+function OpenPutStocksMenu()
+	ESX.TriggerServerCallback('esx_vehicleshop:getPlayerInventory', function (inventory)
+		local elements = {}
+
+		for i=1, #inventory.items, 1 do
+			local item = inventory.items[i]
+
+			if item.count > 0 then
+				table.insert(elements, {
+					label = item.label .. ' x' .. item.count,
+					type = 'item_standard',
+					value = item.name
+				})
+			end
+		end
+
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu',
+		{
+			title    = _U('inventory'),
+			align    = 'top-left',
+			elements = elements
+		}, function (data, menu)
+			local itemName = data.current.value
+
+			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
+				title = _U('amount')
+			}, function (data2, menu2)
+				local count = tonumber(data2.value)
+
+				if count == nil then
+					ESX.ShowNotification(_U('quantity_invalid'))
+				else
+					TriggerServerEvent('esx_vehicleshop:putStockItems', itemName, count)
+					menu2.close()
+					menu.close()
+					OpenPutStocksMenu()
+				end
+
+			end, function (data2, menu2)
+				menu2.close()
+			end)
+
+		end, function (data, menu)
+			menu.close()
+		end)
+	end)
+end
+```
+
+Below, paste:
+```lua
+function OpenLicensePlateCraftMenu()
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.Craft.Type = 1
+		else
+			Config.Zones.Craft.Type = -1
+		end
+		
+		local elements = {
+			{label = _U('licenseplate'),  value = 'license_plate'}
+		}
+
+		ESX.UI.Menu.CloseAll()
+
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'license_plate_craft', {
+			title    = _U('craft'),
+			align    = 'top-left',
+			elements = elements
+		}, function(data, menu)
+			if data.current.value == 'license_plate' then
+				menu.close()
+				TriggerServerEvent('esx_vehicleshop:startCraft')
+			end
+
+		end, function(data, menu)
+			menu.close()
+
+			CurrentAction     = 'license_plate_menu'
+			CurrentActionMsg  = _U('craft_menu')
+			CurrentActionData = {}
+		end)
+
+	else
+		ESX.ShowNotification(_U('not_experienced_enough'))
+	end
+end
+```
+
+Find:
+```lua
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function (job)
+	ESX.PlayerData.job = job
+
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.ShopEntering.Type = 1
+
+			if ESX.PlayerData.job.grade_name == 'boss' then
+				Config.Zones.BossActions.Type = 1
+			end
+
+		else
+			Config.Zones.ShopEntering.Type = -1
+			Config.Zones.BossActions.Type  = -1
+		end
+	end
+end)
+```
+
+Replace with:
+```lua
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function (job)
+	ESX.PlayerData.job = job
+
+	if Config.EnablePlayerManagement then
+		if ESX.PlayerData.job.name == 'cardealer' then
+			Config.Zones.ShopEntering.Type = 1
+
+			if ESX.PlayerData.job.grade_name == 'boss' then
+				Config.Zones.BossActions.Type = 1
+			end
+		elseif ESX.PlayerData.job.name == 'cardealer' then
+			   Config.Zones.Craft.Type = 1
+		else
+			Config.Zones.ShopEntering.Type = -1
+			Config.Zones.Craft.Type 	   = -1
+			Config.Zones.BossActions.Type  = -1
+		end
+	end
+end)
+```
+
+Find:
+```lua
+	elseif zone == 'BossActions' and Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'cardealer' and ESX.PlayerData.job.grade_name == 'boss' then
+
+		CurrentAction     = 'boss_actions_menu'
+		CurrentActionMsg  = _U('shop_menu')
+		CurrentActionData = {}
+
+	end
+```
+
+Above, paste:
+```lua
+	elseif zone == 'Craft' and Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'cardealer' then
+		CurrentAction     = 'license_plate_craft_menu'
+		CurrentActionMsg  = _U('craft_menu')
+		CurrentActionData = {}
+```
+
+Find:
+```lua
+AddEventHandler('esx_vehicleshop:hasExitedMarker', function (zone)
+	if not IsInShopMenu then
+		ESX.UI.Menu.CloseAll()
+	end
+
+	CurrentAction = nil
+end)
+```
+
+Replace with:
+```lua
+AddEventHandler('esx_vehicleshop:hasExitedMarker', function (zone)
+	if not IsInShopMenu then
+		ESX.UI.Menu.CloseAll()
+	-- Craft License Plate
+	elseif zone == 'Craft' then
+		TriggerServerEvent('esx_vehicleshop:stopCraft')
+	end
+
+	CurrentAction = nil
+end)
+```
+
+Find:
+```lua
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(10)
+
+		if CurrentAction == nil then
+			Citizen.Wait(500)
+		else
+
+			ESX.ShowHelpNotification(CurrentActionMsg)
+
+			if IsControlJustReleased(0, Keys['E']) then
+				if CurrentAction == 'shop_menu' then
+					OpenShopMenu()
+				elseif CurrentAction == 'reseller_menu' then
+					OpenResellerMenu()
+				elseif CurrentAction == 'give_back_vehicle' then
+
+					ESX.TriggerServerCallback('esx_vehicleshop:giveBackVehicle', function(isRentedVehicle)
+						if isRentedVehicle then
+							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+							ESX.ShowNotification(_U('delivered'))
+						else
+							ESX.ShowNotification(_U('not_rental'))
+						end
+					end, ESX.Math.Trim(GetVehicleNumberPlateText(CurrentActionData.vehicle)))
+
+				elseif CurrentAction == 'resell_vehicle' then
+
+					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold)
+
+						if vehicleSold then
+							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+							ESX.ShowNotification(_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)))
+						else
+							ESX.ShowNotification(_U('not_yours'))
+						end
+
+					end, CurrentActionData.plate, CurrentActionData.model)
+
+				elseif CurrentAction == 'boss_actions_menu' then
+					OpenBossActionsMenu()
+				end
+
+				CurrentAction = nil
+			end
+		end
+	end
+end)
+```
+
+Replace with:
+```lua
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(10)
+
+		if CurrentAction == nil then
+			Citizen.Wait(500)
+		else
+
+			ESX.ShowHelpNotification(CurrentActionMsg)
+
+			if IsControlJustReleased(0, Keys['E']) then
+				if CurrentAction == 'shop_menu' then
+					OpenShopMenu()
+				elseif CurrentAction == 'reseller_menu' then
+					OpenResellerMenu()
+				elseif CurrentAction == 'give_back_vehicle' then
+
+					ESX.TriggerServerCallback('esx_vehicleshop:giveBackVehicle', function(isRentedVehicle)
+						if isRentedVehicle then
+							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+							ESX.ShowNotification(_U('delivered'))
+						else
+							ESX.ShowNotification(_U('not_rental'))
+						end
+					end, ESX.Math.Trim(GetVehicleNumberPlateText(CurrentActionData.vehicle)))
+
+				elseif CurrentAction == 'resell_vehicle' then
+
+					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold)
+
+						if vehicleSold then
+							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+							ESX.ShowNotification(_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)))
+						else
+							ESX.ShowNotification(_U('not_yours'))
+						end
+
+					end, CurrentActionData.plate, CurrentActionData.model)
+
+				elseif CurrentAction == 'boss_actions_menu' then
+					OpenBossActionsMenu()
+
+				elseif CurrentAction == 'license_plate_craft_menu' then
+					OpenLicensePlateCraftMenu()
+				end
+
+				CurrentAction = nil
+			end
+		end
+	end
+end)
+```
+
+**DONE**
