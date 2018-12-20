@@ -64,7 +64,7 @@ Craft = {
 		Type  = 1,
 }
 ```
-
+The above coords will not be the same as yours.  You will need to change these.
 ## SERVER/MAIN.LUA
 Find:
 
