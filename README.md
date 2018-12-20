@@ -60,7 +60,6 @@ end
 ```
 After, paste:
 ```
--- Craft License Plates
 local function Craft(source)
 	SetTimeout(4000, function()
 
@@ -93,5 +92,4 @@ AddEventHandler('esx_sidealership:stopCraft', function()
 	local _source = source
 	PlayersCrafting[_source] = false
 end)
--- End Craft
 ```
