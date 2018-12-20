@@ -10,7 +10,7 @@
 * In some parts, it's easier to replace an entire section than it is to just try and find the small area to change.  Smart people will just be able to add in the proper code.
 
 # KNOWN BUGS
-* Marker is invisible until after a relog or when you start crafting.
+* Marker is invisible until after a relog or when you start crafting.  However, when invisible, the marker still works.
 * No other known bugs.
 
 # IMPORTANT NOTE
