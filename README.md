@@ -29,10 +29,10 @@ Craft = {
 		Type  = 1,
 }
 ```
-<br>
-<br>
+
 ## SERVER/MAIN.LUA
-Find
+Find:
+
 ```
 function PayRent(d, h, m)
 	MySQL.Async.fetchAll('SELECT * FROM rented_vehicles', {}, function (result)
@@ -58,7 +58,9 @@ function PayRent(d, h, m)
 	end)
 end
 ```
+
 After, paste:
+
 ```
 local function Craft(source)
 	SetTimeout(4000, function()
