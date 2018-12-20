@@ -535,4 +535,21 @@ Citizen.CreateThread(function()
 end)
 ```
 
+## LOCALES/EN.LUA
+*If using another language, you will need to translate and add to your language file*
+
+Find:
+```lua
+  ['customer_date']           = 'date',
+```
+
+Below, add:
+```lua
+  ['assembling_license_plate']  = 'assembling License Plate',
+  ['not_enough_steel']        = 'you don\'t have enough steel',
+  ['craft_menu']              = 'press ~INPUT_CONTEXT~ to craft license plates.',
+  ['licenseplate']            = 'license Plate',
+  ['craft']                   = 'craft License Plate',
+```
+
 **DONE**
