@@ -51,7 +51,7 @@ Add a comma behind the __}__ then press enter and paste:
 Find:
 ```lua
 ResellVehicle = {
-		Pos   = { x = 2091.81, y = 3402.73, z = 46.03 },
+		Pos   = { x = -44.630, y = -1080.738, z = 25.683 },
 		Size  = { x = 3.0, y = 3.0, z = 1.0 },
 		Type  = 1,
 }
