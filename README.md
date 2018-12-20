@@ -1,6 +1,7 @@
 # LICENSE FOR USE
 * You may use this snippet and edit to your liking.  Please PR any improvements.
 * This code may **NOT** be posted anywhere else.
+* I will not help to install or install this for you.  If you don't know how to edit code, **DON'T**.
 * I will delete any issues that do not show errors as I can not help without know what they are.
 
 # esx_vehicleshop_craft_snippet
