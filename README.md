@@ -15,3 +15,11 @@ ResellVehicle = {
 		Type  = 1,
 }
 ```
+Put a comma after the *}*, press enter and past this:
+```
+Craft = {
+		Pos   = { x = 2102.89, y = 3354.97, z = 46.6 },
+		Size  = { x = 1.5, y = 1.5, z = 1.0 },
+		Type  = 1,
+}
+```
