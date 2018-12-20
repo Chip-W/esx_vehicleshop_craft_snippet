@@ -5,7 +5,9 @@
 * I will delete any issues that do not show errors as I can not help without know what they are.
 
 # esx_vehicleshop_craft_snippet
-Craft License Plates With Cardealer Job.  Requires two steel items to craft one licensplate item.
+* Craft License Plates With Cardealer Job.
+* Requires two steel items to craft one licensplate item.
+* In some parts, it's easier to replace an entire section than it is to just try and find the small area to change.  Smart people will just be able to add in the proper code.
 
 # KNOWN BUGS
 * Marker is invisible until after a relog or when you start crafting.
@@ -59,7 +61,7 @@ ResellVehicle = {
 Put a comma after the **}**, press enter and past this:
 ```lua
 Craft = {
-		Pos   = { x = 2102.89, y = 3354.97, z = 46.6 },
+		Pos   = { x = -39.80, y = -1088.24, z = 25.50 },
 		Size  = { x = 1.5, y = 1.5, z = 1.0 },
 		Type  = 1,
 }
