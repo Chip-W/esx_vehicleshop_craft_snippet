@@ -58,7 +58,7 @@ ResellVehicle = {
 		Type  = 1,
 }
 ```
-Put a comma after the **}**, press enter and past this:
+Put a comma after the **}** press enter and past this:
 ```lua
 Craft = {
 		Pos   = { x = -39.80, y = -1088.24, z = 25.50 },
@@ -66,7 +66,7 @@ Craft = {
 		Type  = 1,
 }
 ```
-The above coords will not be the same as yours.  You will need to change these.
+These are default coords for esx_vehicleshop.
 ## SERVER/MAIN.LUA
 Find:
 
