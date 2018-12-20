@@ -10,6 +10,30 @@ For this snippet to work properly, you will need three resources installed.
 
 
 # ESX_JOBS
+Navigate to client/jobs/
+
+## MINER.LUA
+Find:
+```lua
+	{
+          name   = _U('m_diamond'),
+          db_name= "diamond",
+          max    = 50,
+          add    = 1,
+          drop   = 5
+	}
+```
+
+Add a comma behind the __}__ then press enter and paste:
+```lua
+        {
+          name   = _U('m_steel'),
+          db_name= "steel",
+          max    = 30,
+          add    = 1,
+          drop   = 4
+        }
+```
 
 # ESX_VEHICLESHOP
 ## CONFIG.LUA
