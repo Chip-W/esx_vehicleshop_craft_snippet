@@ -38,7 +38,7 @@ Add a comma behind the __}__ then press enter and paste:
 # ESX_VEHICLESHOP
 ## CONFIG.LUA
 Find:
-```
+```lua
 ResellVehicle = {
 		Pos   = { x = 2091.81, y = 3402.73, z = 46.03 },
 		Size  = { x = 3.0, y = 3.0, z = 1.0 },
@@ -46,7 +46,7 @@ ResellVehicle = {
 }
 ```
 Put a comma after the **}**, press enter and past this:
-```
+```lua
 Craft = {
 		Pos   = { x = 2102.89, y = 3354.97, z = 46.6 },
 		Size  = { x = 1.5, y = 1.5, z = 1.0 },
@@ -57,7 +57,7 @@ Craft = {
 ## SERVER/MAIN.LUA
 Find:
 
-```
+```lua
 function PayRent(d, h, m)
 	MySQL.Async.fetchAll('SELECT * FROM rented_vehicles', {}, function (result)
 		for i=1, #result, 1 do
@@ -85,7 +85,7 @@ end
 
 After, paste:
 
-```
+```lua
 local function Craft(source)
 	SetTimeout(4000, function()
 
