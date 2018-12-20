@@ -16,7 +16,7 @@ For this snippet to work properly, you will need three resources installed first
 * [JSFOUR License Plates](https://github.com/jonassvensson4/jsfour-licenseplate)
 * [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop) and all required dependencies.
 * [esx_jobs](https://github.com/ESX-Org/esx_jobs)
-* You also need to add the item "__steel__" to your "__items__" table of your database.
+* You also need to add the item "__steel__" to the "__items__" table of your database.
 
 
 # ESX_JOBS
