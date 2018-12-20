@@ -15,7 +15,7 @@ ResellVehicle = {
 		Type  = 1,
 }
 ```
-Put a comma after the *}*, press enter and past this:
+Put a comma after the _}_, press enter and past this:
 ```
 Craft = {
 		Pos   = { x = 2102.89, y = 3354.97, z = 46.6 },
@@ -23,3 +23,4 @@ Craft = {
 		Type  = 1,
 }
 ```
+
