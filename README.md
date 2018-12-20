@@ -115,7 +115,7 @@ local function Craft(source)
 	end)
 end
 
-RegisterServerEvent('esx_sidealership:startCraft')
+RegisterServerEvent('esx_vehicleshop:startCraft')
 AddEventHandler('esx_sidealership:startCraft', function()
 	local _source = source
 	PlayersCrafting[_source] = true
@@ -123,7 +123,7 @@ AddEventHandler('esx_sidealership:startCraft', function()
 	Craft(_source)
 end)
 
-RegisterServerEvent('esx_sidealership:stopCraft')
+RegisterServerEvent('esx_vehicleshop:stopCraft')
 AddEventHandler('esx_sidealership:stopCraft', function()
 	local _source = source
 	PlayersCrafting[_source] = false
