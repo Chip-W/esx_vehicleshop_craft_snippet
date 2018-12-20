@@ -12,7 +12,7 @@ Craft License Plates With Cardealer Job.  Requires two steel items to craft one 
 * No other known bugs.
 
 # IMPORTANT NOTE
-For this snippet to work properly, you will need three resources installed.
+For this snippet to work properly, you will need three resources installed first.
 * [JSFOUR License Plates](https://github.com/jonassvensson4/jsfour-licenseplate)
 * [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop) and all required dependencies.
 * [esx_jobs](https://github.com/ESX-Org/esx_jobs)
