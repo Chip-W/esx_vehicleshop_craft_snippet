@@ -5,7 +5,7 @@
 * I will delete any issues that do not show errors as I can not help without know what they are.
 
 # esx_vehicleshop_craft_snippet
-Craft License Plates With Cardealer Job
+Craft License Plates With Cardealer Job.  Requires two steel items to craft one licensplate item.
 
 # KNOWN BUGS
 * Marker is invisible until after a relog or when you start crafting.
